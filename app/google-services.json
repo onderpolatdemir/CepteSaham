@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "818085178982",
+    "project_id": "ceptesaham-663df",
+    "storage_bucket": "ceptesaham-663df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818085178982:android:a7c2cf053260ab6c53c7a7",
+        "android_client_info": {
+          "package_name": "com.CepteSaham.CepteSaham"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9KnvWyJm2A8GtD1UVvs5vuSB6MUNZ2lY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
