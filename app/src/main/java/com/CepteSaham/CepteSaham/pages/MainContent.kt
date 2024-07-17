@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.CepteSaham.CepteSaham.customComposables.PrimaryButton
 import com.CepteSaham.CepteSaham.customComposables.SecondaryButton
 import com.CepteSaham.CepteSaham.navigation.Screen
@@ -46,9 +47,6 @@ fun MainContent(
     onClick: () -> Unit,
     onGuestClick: () -> Unit
 ) {
-
-
-
 
     //val mutableScreenHeight = remember { mutableSetOf(configuration.screenHeightDp.dp) }
 

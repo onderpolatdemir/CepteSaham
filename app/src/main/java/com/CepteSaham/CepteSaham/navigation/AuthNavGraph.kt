@@ -7,13 +7,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.CepteSaham.CepteSaham.AnimatedSplashScreen
+import com.CepteSaham.CepteSaham.model.AuthViewModel
 import com.CepteSaham.CepteSaham.pages.BusinessLoginPage
 import com.CepteSaham.CepteSaham.pages.LoginPage
 import com.CepteSaham.CepteSaham.pages.MainContent
 import com.CepteSaham.CepteSaham.pages.SignUpPage
 
 
-fun NavGraphBuilder.authNavGraph(navController : NavHostController){
+fun NavGraphBuilder.authNavGraph(navController : NavHostController, authViewModel: AuthViewModel){
 
     navigation(
         route = Graph.AUTHENTICATION,
@@ -27,18 +28,21 @@ fun NavGraphBuilder.authNavGraph(navController : NavHostController){
         ){
             MainContent(
                 onBusinessClick = {
+                    navController.navigateUp()
                     navController.navigate(Screen.Business.route)
                 },
                 onClick = {
+                    navController.navigateUp()
                     navController.navigate(Screen.Login.route)
                 },
                 onGuestClick = {
+                    navController.navigateUp()
                     navController.navigate(Graph.GUEST)
                 }
             )
         }
         composable(route = Screen.Login.route){
-            LoginPage(navController = navController)
+            LoginPage(navController = navController, authViewModel = authViewModel)
         }
         composable(route = Screen.Business.route){
             BusinessLoginPage(navController = navController)
@@ -47,7 +51,7 @@ fun NavGraphBuilder.authNavGraph(navController : NavHostController){
 //            BusinessLoginPage()
 //        }
         composable(route = Screen.SignUp.route){
-            SignUpPage(navController = navController)
+            SignUpPage(navController = navController, authViewModel = authViewModel)
         }
 
     }

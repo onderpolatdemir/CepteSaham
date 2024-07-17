@@ -1,6 +1,7 @@
 package com.CepteSaham.CepteSaham.pages
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +20,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,20 +46,43 @@ import com.CepteSaham.CepteSaham.R
 import com.CepteSaham.CepteSaham.customComposables.CustomTextField
 import com.CepteSaham.CepteSaham.customComposables.PrimaryButton
 import com.CepteSaham.CepteSaham.customComposables.SimpleTopBar
+import com.CepteSaham.CepteSaham.model.AuthState
+import com.CepteSaham.CepteSaham.model.AuthViewModel
 import com.CepteSaham.CepteSaham.navigation.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpPage(navController: NavController){
+fun SignUpPage(
+    navController: NavController,
+    authViewModel: AuthViewModel
+){
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
+
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
+
+
+    LaunchedEffect(Unit) {
+        authViewModel.resetAuthState()
+    }
+
+    LaunchedEffect(authState.value) {
+        when (authState.value){
+            is AuthState.Authenticated -> navController.navigate(Screen.Login.route)
+            is AuthState.Error -> Toast.makeText(context,
+                (authState.value as AuthState.Error).message, Toast.LENGTH_LONG).show()
+            else -> Unit
+        }
+    }
 
 
     Scaffold(
@@ -136,7 +163,7 @@ fun SignUpPage(navController: NavController){
                                 onValueChange = { surname = it },
                                 placeholder = "Soyisim",
                                 modifier = Modifier.width((screenWidth * 0.8f) /2),
-                                visualTransformation = PasswordVisualTransformation(),
+                                //visualTransformation = PasswordVisualTransformation(),
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Text,
                                     imeAction = ImeAction.Next
@@ -184,7 +211,15 @@ fun SignUpPage(navController: NavController){
 
                     Spacer(modifier = Modifier.height(screenHeight * 0.03f))
 
-                    PrimaryButton(text = "Kayıt Ol") {}
+                    PrimaryButton(text = "Kayıt Ol") {
+                        if (password == confirmPassword && email.isNotEmpty() && password.isNotEmpty()) {
+                            authViewModel.signUp(email, password)
+                            Toast.makeText(context , "verification has been sent to email" , Toast.LENGTH_SHORT).show()
+                            errorMessage = null
+                        } else {
+                            errorMessage = "Passwords do not match"
+                        }
+                    }
 
                     Spacer(modifier = Modifier.height(screenHeight * 0.02f))
 

@@ -1,6 +1,7 @@
 package com.CepteSaham.CepteSaham.pages
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,13 +22,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -44,17 +48,46 @@ import com.CepteSaham.CepteSaham.R
 import com.CepteSaham.CepteSaham.customComposables.CustomTextField
 import com.CepteSaham.CepteSaham.customComposables.PrimaryButton
 import com.CepteSaham.CepteSaham.customComposables.SimpleTopBar
+import com.CepteSaham.CepteSaham.model.AuthState
+import com.CepteSaham.CepteSaham.model.AuthViewModel
+import com.CepteSaham.CepteSaham.navigation.Graph
 import com.CepteSaham.CepteSaham.navigation.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginPage(navController: NavController){
+fun LoginPage(
+    navController: NavController,
+    authViewModel : AuthViewModel
+    ){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
+
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        authViewModel.resetAuthState()
+    }
+
+    LaunchedEffect(authState.value) {
+        when (authState.value){
+            is AuthState.Authenticated -> navController.navigate(Graph.HOME) {
+                popUpTo(navController.graph.startDestinationId) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+            is AuthState.Error -> Toast.makeText(context,
+                (authState.value as AuthState.Error).message, Toast.LENGTH_LONG).show()
+            else -> Unit
+        }
+    }
+
 
     Scaffold(
         topBar = {
@@ -122,6 +155,7 @@ fun LoginPage(navController: NavController){
                         onValueChange = {password = it},
                         placeholder = "Şifre",
                         modifier = Modifier.width(screenWidth * 0.8f),
+                        visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password
                         )
@@ -141,7 +175,9 @@ fun LoginPage(navController: NavController){
 
                     Spacer(modifier = Modifier.height(screenHeight * 0.02f))
 
-                    PrimaryButton(text = "Giriş Yap") {}
+                    PrimaryButton(text = "Giriş Yap") {
+                        authViewModel.login(context = context, email, password)
+                    }
 
                     Spacer(modifier = Modifier.height(screenHeight * 0.02f))
 
