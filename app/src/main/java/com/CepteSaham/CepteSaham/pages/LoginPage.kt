@@ -1,8 +1,10 @@
 package com.CepteSaham.CepteSaham.pages
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.shapes.Shape
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,11 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.input.TextFieldCharSequence
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -30,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -44,6 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.CepteSaham.CepteSaham.R
 import com.CepteSaham.CepteSaham.customComposables.CustomTextField
 import com.CepteSaham.CepteSaham.customComposables.PrimaryButton
@@ -94,7 +101,7 @@ fun LoginPage(
             SimpleTopBar(
                 title = "Tekrar ",
                 title2 = "Hoşgeldin",
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.navigateUp() }
             )
         },
         content = {
@@ -110,13 +117,16 @@ fun LoginPage(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .fillMaxSize()
+                        //.fillMaxSize()
                         .padding(top = screenHeight * 0.25f)
                         .padding(horizontal = screenWidth * 0.1f)
+                        .shadow(1.dp, shape = RoundedCornerShape(8.dp))
+                        .background(colorResource(id = R.color.primarySmooth))
                 ) {
 
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(top = 8.dp)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.ball),
@@ -142,7 +152,7 @@ fun LoginPage(
                         value = email,
                         onValueChange = {email = it},
                         placeholder = "Email",
-                        modifier = Modifier.width(screenWidth * 0.8f),
+                        modifier = Modifier.width(screenWidth * 0.8f).padding(horizontal = 8.dp),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
@@ -154,7 +164,7 @@ fun LoginPage(
                         value = password,
                         onValueChange = {password = it},
                         placeholder = "Şifre",
-                        modifier = Modifier.width(screenWidth * 0.8f),
+                        modifier = Modifier.width(screenWidth * 0.8f).padding(horizontal = 8.dp),
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password
@@ -164,8 +174,11 @@ fun LoginPage(
                     Spacer(modifier = Modifier.height(screenHeight * 0.01f))
 
                     TextButton(
-                        onClick = {  },
-                        modifier = Modifier.align(Alignment.End)) {
+                        onClick = {
+                            navController.popBackStack()
+                            navController.navigate(Screen.PasswordReset.route)
+                        },
+                        modifier = Modifier.align(Alignment.End).padding(horizontal = 16.dp)) {
                         Text(
                             "Şifremi Unuttum.",
                             color = colorResource(id = R.color.secondaryColor),
@@ -204,11 +217,11 @@ fun LoginPage(
     )
 }
 
-//@Preview(
-//    showBackground = true,
-//    showSystemUi = true
-//)
-//@Composable
-//fun LoginPagePreview() {
-//    LoginPage()
-//}
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun LoginPagePreview() {
+    LoginPage(rememberNavController(), AuthViewModel())
+}

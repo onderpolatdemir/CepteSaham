@@ -11,6 +11,7 @@ import com.CepteSaham.CepteSaham.model.AuthViewModel
 import com.CepteSaham.CepteSaham.pages.BusinessLoginPage
 import com.CepteSaham.CepteSaham.pages.LoginPage
 import com.CepteSaham.CepteSaham.pages.MainContent
+import com.CepteSaham.CepteSaham.pages.PasswordReset
 import com.CepteSaham.CepteSaham.pages.SignUpPage
 
 
@@ -28,15 +29,15 @@ fun NavGraphBuilder.authNavGraph(navController : NavHostController, authViewMode
         ){
             MainContent(
                 onBusinessClick = {
-                    navController.navigateUp()
+                    //navController.navigateUp()
                     navController.navigate(Screen.Business.route)
                 },
                 onClick = {
-                    navController.navigateUp()
+                    //navController.navigateUp()
                     navController.navigate(Screen.Login.route)
                 },
                 onGuestClick = {
-                    navController.navigateUp()
+                    //navController.navigateUp()
                     navController.navigate(Graph.GUEST)
                 }
             )
@@ -53,6 +54,8 @@ fun NavGraphBuilder.authNavGraph(navController : NavHostController, authViewMode
         composable(route = Screen.SignUp.route){
             SignUpPage(navController = navController, authViewModel = authViewModel)
         }
-
+        composable(route = Screen.PasswordReset.route){
+            PasswordReset(navController = navController, authViewModel = authViewModel)
+        }
     }
 }

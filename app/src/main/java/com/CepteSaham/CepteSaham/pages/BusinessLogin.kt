@@ -55,7 +55,7 @@ fun BusinessLoginPage(navController: NavController){
             SimpleTopBar(
                 title = "Tekrar ",
                 title2 = "Hoşgeldin",
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.navigateUp()}
             )
         },
         content = {
@@ -124,7 +124,10 @@ fun BusinessLoginPage(navController: NavController){
                     Spacer(modifier = Modifier.height(screenHeight * 0.01f))
 
                     TextButton(
-                        onClick = {  },
+                        onClick = {
+                                  navController.popBackStack()
+                            navController.navigate(Screen.PasswordReset.route)
+                        },
                         modifier = Modifier.align(Alignment.End)) {
                         Text(
                             "Şifremi Unuttum.",

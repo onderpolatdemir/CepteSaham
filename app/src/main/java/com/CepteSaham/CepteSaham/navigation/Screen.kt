@@ -8,5 +8,6 @@ sealed class Screen(val route: String) {
     object Guest : Screen("GUEST")
     object SignUp : Screen("SIGNUP")
     object Main : Screen("MAIN")
+    object PasswordReset : Screen("PASSWORDRESET")
 
 }
