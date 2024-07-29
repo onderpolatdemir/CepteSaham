@@ -6,6 +6,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.CepteSaham.CepteSaham.HomePage
 import com.CepteSaham.CepteSaham.model.AuthViewModel
 
 @Composable
@@ -17,6 +18,7 @@ fun RootNavigationGraph(navController: NavHostController, authViewModel: AuthVie
         ) {
         authNavGraph(navController = navController, authViewModel = authViewModel)
         composable(route = Graph.HOME){
+            HomePage(authViewModel = authViewModel)
         }
     }
 }

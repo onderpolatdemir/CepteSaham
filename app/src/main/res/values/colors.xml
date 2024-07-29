@@ -11,5 +11,8 @@
     <color name="primaryColor">#154B2D</color>
     <color name="secondaryColor">#4E9041</color>
     <color name="primarySmooth">#F6FFF5</color>
+
     <color name="backgroundLight">#FFFFFFFF</color>
+
+    <color name="TextFieldBackground">#D9D9D9</color>
 </resources>

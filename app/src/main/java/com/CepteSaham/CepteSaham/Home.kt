@@ -8,7 +8,7 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.CepteSaham.CepteSaham.model.AuthViewModel
 import com.CepteSaham.CepteSaham.navigation.BottomNavbarScreen
 import com.CepteSaham.CepteSaham.navigation.HomeNavGraph
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

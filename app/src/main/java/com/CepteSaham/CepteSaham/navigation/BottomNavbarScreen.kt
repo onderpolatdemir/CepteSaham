@@ -19,25 +19,25 @@ sealed class BottomNavbarScreen(
 ) {
     object Home : BottomNavbarScreen(
         route = "HOME",
-        title = "HOME",
-        iconresId = R.drawable.homevetcor
+        title = "Ana Sayfa",
+        iconresId = R.drawable.home_icon
     )
 
     object Favorites : BottomNavbarScreen(
         route = "FAVORITES",
-        title = "FAVORITES",
-        iconresId = R.drawable.favourites_vector
+        title = "Favoriler",
+        iconresId = R.drawable.favourites_icon
     )
 
     object Messages : BottomNavbarScreen(
-        route = "BOOKINGS",
-        title = "BOOKINGS",
-        iconresId = R.drawable.messages_vector
+        route = "MESSAGES",
+        title = "Mesajlar",
+        iconresId = R.drawable.message_icon
     )
 
     object Profile : BottomNavbarScreen(
         route = "PROFILE",
-        title = "PROFILE",
-        iconresId = R.drawable.profile_vector
+        title = "Profil",
+        iconresId = R.drawable.profile_icon
     )
 }
